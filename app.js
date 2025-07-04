@@ -13,7 +13,7 @@ app.use(routers());
 
 sequelize.sync().then(() => {
     app.listen(3000, () => {
-        console.log('Server running on http://localhost:3000');
+        console.log('Server running on port 3000');
     });
 }).catch(err => {
     console.error('Unable to connect to the database:', err);
