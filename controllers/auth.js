@@ -15,7 +15,7 @@ const sendMagicLink = async (req, res) => {
     await sendEmail(email, 'Your Magic Sign-In Link', `<p>Click <a href="${magicLink}">here</a> to sign in to your account. This link will expire in 15 minutes.</p>`);
     res.json({ message: 'Magic link sent to your email.' });
   } catch (err) {
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: 'Server error', err });
   }
 };
 
