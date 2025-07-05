@@ -6,7 +6,7 @@ const getAllCourse = async (req, res) => {
         const course = await Course.findAll({ order: [['createdAt', 'DESC']] });
         if (!course)
             return res.status(404).json({ message: 'No course Avialable' });
-        return res.json(user);
+        return res.json(course);
     }
     catch (error) {
         return res.status(500).json({ message: `Error fetching Courses: ${error.message}` });
