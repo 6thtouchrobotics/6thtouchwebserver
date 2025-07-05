@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { authenticate } = require('../middleware/middleware');
 const { sendMagicLink, verifyMagicLink } = require('../controllers/auth');
 const { getUser, getUserById, updateUser } = require('../controllers/user');
 const { getAllCourse, getCourseById, addCourse } = require('../controllers/course');
-const { authenticate } = require('../middleware/middleware');
+const { getAllTopics, getTopicById, addTopic } = require('../controllers/topics');
 const routers = () => {
   router.get
 ('/', (req, res) => {
@@ -17,6 +18,9 @@ const routers = () => {
   router.get('/api/course/all', authenticate, getAllCourse);
   router.get('/api/course/:courseId', authenticate, getCourseById);
   router.post('/api/course/add', addCourse);
+  router.get('/api/topic/:courseId/all', authenticate, getAllTopics);
+  router.get('/api/topic/:courseId', authenticate, getTopicById);
+  router.post('/api/topic/add', addTopic);
   return router;
 };
 
