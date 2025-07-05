@@ -12,7 +12,7 @@ const routers = () => {
   router.get('/api/auth/verify', verifyMagicLink);
   router.get('/api/user', authenticate, getUser);
   router.get('/api/user/:id', authenticate, getUserById);
-  router.put('/api/user', authenticate, updateUser);
+  router.put('/api/user/update', authenticate, updateUser);
   return router;
 };
 
