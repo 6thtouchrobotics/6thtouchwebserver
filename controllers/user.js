@@ -1,12 +1,27 @@
 "use strict";
 const User = require('../models/user');
 
+const getUser = async (req, res) => {
+    const id  = req.user.id;
+    if (!id)
+        return res.status(401).json({ message: 'Unauthorized' });
+    try {
+        const user = await User.findOne({ where: { id }  });
+        if (!user)
+            return res.status(404).json({ message: 'User not found' });
+        return res.json(user);
+    }
+    catch (error) {
+        return res.status(500).json({ message: `Error fetching user: ${error.message}` });
+    }
+};
+
 const getUserById = async (req, res) => {
     const { id } = req.params;
     if (!id)
         return res.status(400).json({ message: 'User ID is required' });
     try {
-        const user = await User.findOne({ where: { id } });
+        const user = await User.findOne({ where: { id }  });
         if (!user)
             return res.status(404).json({ message: 'User not found' });
         return res.json(user);
@@ -34,4 +49,4 @@ const updateUser = async (req, res) => {
     }
 };
 
-module.exports = { getUserById, updateUser };
+module.exports = { getUser, getUserById, updateUser };
