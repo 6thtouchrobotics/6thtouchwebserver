@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { sendMagicLink, verifyMagicLink } = require('../controllers/auth');
 const { getUser, getUserById, updateUser } = require('../controllers/user');
-const { getAllCourse, getCourseById } = require('../controllers/course');
+const { getAllCourse, getCourseById, addCourse } = require('../controllers/course');
 const { authenticate } = require('../middleware/middleware');
 const routers = () => {
   router.get
@@ -14,8 +14,9 @@ const routers = () => {
   router.get('/api/user', authenticate, getUser);
   router.get('/api/user/:id', authenticate, getUserById);
   router.put('/api/user/update', authenticate, updateUser);
-  router.get('/api/course/all', getAllCourse);
-  router.get('/api/course/:courseId', getCourseById);
+  router.get('/api/course/all', authenticate, getAllCourse);
+  router.get('/api/course/:courseId', authenticate, getCourseById);
+  router.post('/api/course/add', addCourse);
   return router;
 };
 
