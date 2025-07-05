@@ -33,7 +33,7 @@ const getUserById = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const { username } = req.body;
-    const userId = req.user && req.user.id;
+    const userId = req.user.id;
     if (!userId)
         return res.status(401).json({ message: 'Unauthorized' });
     try {
