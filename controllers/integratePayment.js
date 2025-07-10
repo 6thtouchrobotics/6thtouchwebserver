@@ -34,7 +34,7 @@ const initiatePayment = async (req, res) => {
                     phonenumber: phoneNumber,
                 },
                 customizations: {
-                    title: 'Flutterwave Standard Payment',
+                    title: '6thTouch Course Payment',
                 },
             },
             {
@@ -67,7 +67,7 @@ const verifyPayment = async (req, res) => {
     }
 
     try {
-        const response = await flw.Transaction.verify({ id: tx_ref });
+        const response = await flw.Transaction.verify({ tx_ref });
 
         if (response.data.status === 'success') {
             const txData = response.data.data;
