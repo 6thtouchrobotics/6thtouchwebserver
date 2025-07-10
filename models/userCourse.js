@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const userCourse = sequelize.define('Course', {
+const EnrolledCourse = sequelize.define('Course', {
   id: {
     type: DataTypes.UUID,
     defaultValue: DataTypes.UUIDV4,
@@ -75,4 +75,4 @@ const userCourse = sequelize.define('Course', {
   timestamps: true
 });
 
-module.exports = userCourse;
+module.exports = EnrolledCourse;

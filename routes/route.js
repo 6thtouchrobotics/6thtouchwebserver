@@ -21,7 +21,7 @@ router.post('/api/course/add', addCourse);
 router.get('/api/topic/:courseId/all', authenticate, getAllTopics);
 router.get('/api/topic/:courseId', authenticate, getTopicById);
 router.post('/api/topic/add', addTopic);
-router.post('/api/payment/initiate', initiatePayment);
-router.get('/api/payment/verify', verifyPayment);
+router.post('/api/payment/initiate', authenticate, initiatePayment);
+router.get('/api/payment/verify', authenticate, verifyPayment);
 
 module.exports = { routers: router };
