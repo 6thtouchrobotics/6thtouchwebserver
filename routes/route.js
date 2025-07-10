@@ -5,6 +5,7 @@ const { sendMagicLink, verifyMagicLink } = require('../controllers/auth');
 const { getUser, getUserById, updateUser } = require('../controllers/user');
 const { getAllCourse, getCourseById, addCourse } = require('../controllers/course');
 const { getAllTopics, getTopicById, addTopic } = require('../controllers/topics');
+const { initiatePayment, verifyPayment } = require('../controllers/integratePayment');
 const routers = () => {
   router.get
 ('/', (req, res) => {
@@ -21,6 +22,8 @@ const routers = () => {
   router.get('/api/topic/:courseId/all', authenticate, getAllTopics);
   router.get('/api/topic/:courseId', authenticate, getTopicById);
   router.post('/api/topic/add', addTopic);
+  router.post('/api/payment/initiate', initiatePayment);
+  router.get('/api/payment/verify', verifyPayment);
   return router;
 };
 

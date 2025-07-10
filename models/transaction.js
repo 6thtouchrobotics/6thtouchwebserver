@@ -15,6 +15,14 @@ const Transaction = sequelize.define('Transaction', {
             key: 'id'
         }
     },
+    courseId: {
+        type: DataTypes.UUID,
+        allowNull: true,
+        references: {
+            model: 'Courses', // Assuming you have a Course model
+            key: 'id'
+        }
+    },
     amount: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: false
@@ -22,18 +30,13 @@ const Transaction = sequelize.define('Transaction', {
     currency: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 'USD'
+        defaultValue: 'NGN'
     },
     status: {
-        type: DataTypes.ENUM('pending', 'completed', 'failed'),
+        type: DataTypes.ENUM('pending', 'successful', 'failed'),
         allowNull: false,
         defaultValue: 'pending'
     },  
-    transactionId: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
     tx_ref: {
         type: DataTypes.STRING,
         allowNull: false,
