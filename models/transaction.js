@@ -47,3 +47,5 @@ const Transaction = sequelize.define('Transaction', {
     tableName: 'transactions',
     underscored: true
 })
+
+module.exports = Transaction;

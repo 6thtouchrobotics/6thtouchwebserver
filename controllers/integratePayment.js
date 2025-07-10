@@ -12,7 +12,6 @@ const initiatePayment = async (req, res) => {
     }
 
     try {
-        // Optional: Store a "pending" transaction in DB
         await Transaction.create({
             userId,
             courseId,
