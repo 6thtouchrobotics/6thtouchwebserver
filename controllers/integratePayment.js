@@ -61,13 +61,13 @@ const initiatePayment = async (req, res) => {
 };
 
 const verifyPayment = async (req, res) => {
-    const { tx_ref } = req.query;
-    if (!tx_ref) {
-        return res.status(400).json({ message: 'Transaction reference is required' });
+const { transaction_id, tx_ref} = req.query;
+    if (!transaction_id || !tx_ref) {
+        return res.status(400).json({ message: 'Transaction ids are required' });
     }
 
     try {
-        const response = await flw.Transaction.verify({ id: tx_ref });
+        const response = await flw.Transaction.verify({ id: transaction_id });
 
         if (response.data.status === 'success') {
             const txData = response.data.data;
