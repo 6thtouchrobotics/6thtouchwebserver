@@ -5,7 +5,7 @@ const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_K
 
 const initiatePayment = async (req, res) => {
     const { amount, email, name, phoneNumber, userId, courseId } = req.body;
-    const tx_ref = `tx_${Date.now()}`;
+    const tx_ref = `${Date.now()}${Math.floor(Math.random() * 1000000)}`;
 
     if (!amount || !email || !name || !phoneNumber || !userId || !courseId) {
         return res.status(400).json({ message: 'All fields are required including userId and courseId' });
@@ -67,7 +67,7 @@ const verifyPayment = async (req, res) => {
     }
 
     try {
-        const response = await flw.Transaction.verify({ tx_ref });
+        const response = await flw.Transaction.verify({ id: tx_ref });
 
         if (response.data.status === 'success') {
             const txData = response.data.data;
