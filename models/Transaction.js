@@ -10,18 +10,10 @@ const Transaction = sequelize.define('Transaction', {
     userId: {
         type: DataTypes.UUID,
         allowNull: false,
-        references: {
-            model: 'Users', // Assuming you have a User model
-            key: 'id'
-        }
     },
     courseId: {
         type: DataTypes.UUID,
         allowNull: true,
-        references: {
-            model: 'Courses', // Assuming you have a Course model
-            key: 'id'
-        }
     },
     amount: {
         type: DataTypes.DECIMAL(10, 2),

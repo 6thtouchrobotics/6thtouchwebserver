@@ -1,17 +1,12 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const EnrolledCourse = sequelize.define('Course', {
-  id: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    primaryKey: true
-  },
-  userId: {
-    type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    foreignKey: true,
-  },
+const Course = sequelize.define('Course', {
+    id: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      primaryKey: true
+    },
     title: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -43,7 +38,7 @@ const EnrolledCourse = sequelize.define('Course', {
         allowNull: true,
         comment: 'URL of the course image'
     },
-    videoUrl: {
+    link: {
         type: DataTypes.STRING,
         allowNull: true,
         comment: 'URL of the course video'
@@ -71,8 +66,9 @@ const EnrolledCourse = sequelize.define('Course', {
         defaultValue: DataTypes.NOW,
         comment: 'Last update date of the course'
     }
+
 }, {
   timestamps: true
 });
 
-module.exports = EnrolledCourse;
+module.exports = Course;

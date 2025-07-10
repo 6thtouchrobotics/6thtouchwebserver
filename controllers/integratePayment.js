@@ -1,5 +1,7 @@
 const axios = require('axios');
-const Transaction = require('../models/transaction'); 
+const Transaction = require('../models/Transaction'); 
+const Enrollment = require('../models/Enrollment');
+const Course = require('../models/Course');
 const Flutterwave = require('flutterwave-node-v3');
 const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
 
@@ -60,41 +62,59 @@ const initiatePayment = async (req, res) => {
     }
 };
 
+
 const verifyPayment = async (req, res) => {
-const { transaction_id, tx_ref} = req.query;
-    if (!transaction_id || !tx_ref) {
-        return res.status(400).json({ message: 'Transaction ids are required' });
+  const { transaction_id, tx_ref } = req.query;
+
+  if (!transaction_id || !tx_ref) {
+    return res.status(400).json({ message: 'Transaction ids are required' });
+  }
+
+  try {
+    const response = await flw.Transaction.verify({ id: transaction_id });
+
+    if (response.data.status === 'success') {
+      const txData = response.data.data;
+
+      // 1. Find pending transaction
+      const transaction = await Transaction.findOne({ where: { tx_ref } });
+
+      if (!transaction) {
+        return res.status(404).json({ message: 'Transaction not found' });
+      }
+
+      // 2. Update transaction status
+      transaction.status = 'successful';
+      transaction.amount = txData.amount;
+      transaction.currency = txData.currency;
+      await transaction.save();
+
+      // 3. Enroll the user into the course if not already enrolled
+      const alreadyEnrolled = await Enrollment.findOne({
+        where: { userId: transaction.userId, courseId: transaction.courseId }
+      });
+
+      if (!alreadyEnrolled) {
+        await Enrollment.create({
+          userId: transaction.userId,
+          courseId: transaction.courseId
+        });
+      }else{
+        return res.status(400).json({ message: 'User is already enrolled in this course' });
+      }
+
+      return res.json({
+        message: 'Payment verified and course enrolled successfully',
+        transaction
+      });
+    } else {
+      return res.status(400).json({ message: 'Payment verification failed', error: response.data.message });
     }
-
-    try {
-        const response = await flw.Transaction.verify({ id: transaction_id });
-
-        if (response.data.status === 'success') {
-            const txData = response.data.data;
-
-            // Find the pending transaction you created earlier
-            const transaction = await Transaction.findOne({ where: { tx_ref } });
-
-            if (!transaction) {
-                return res.status(404).json({ message: 'Transaction not found' });
-            }
-
-            transaction.status = 'successful';
-            transaction.amount = txData.amount;
-            transaction.currency = txData.currency;
-            await transaction.save();
-
-            return res.json({
-                message: 'Payment verified successfully',
-                transaction,
-            });
-        } else {
-            return res.status(400).json({ message: 'Payment verification failed', error: response.data.message });
-        }
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: 'Server error', error: err.response?.data || err.message });
-    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: 'Server error', error: err.response?.data || err.message });
+  }
 };
+
 
 module.exports = { initiatePayment, verifyPayment };

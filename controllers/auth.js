@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const User = require('../models/User');
 const { sendEmail } = require('../utils/email');
 
 // Send magic link
@@ -11,7 +11,7 @@ const sendMagicLink = async (req, res) => {
     if (!user) {
       user = await User.create({ username: email.split('@')[0], email });
     }
-    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '15m' });
+    const token = jwt.sign({ id: user.id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '30m' });
     const magicLink = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard?token=${token}`;
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; background: #f9f9f9; padding: 32px;">

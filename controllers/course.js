@@ -1,5 +1,5 @@
 "use strict";
-const Course = require('../models/course');
+const Course = require('../models/Course');
 
 const getAllCourse = async (req, res) => {
     try {

@@ -9,13 +9,11 @@ const Topic = sequelize.define('Topic', {
   },
   courseId: {
     type: DataTypes.UUID,
-    defaultValue: DataTypes.UUIDV4,
-    foreignKey: true,
+    allowNull: false,
   },
     title: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true
     },
     content: {
         type: DataTypes.TEXT,

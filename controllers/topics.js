@@ -1,12 +1,13 @@
 "use strict";
-const Topic = require('../models/topic');
+const Topic = require('../models/Topic');
+const Course = require('../models/Course');
 
 const getAllTopics = async (req, res) => {
     const { courseId } = req.query;
     if (!courseId)
         return res.status(400).json({ message: 'Course ID is required' });
     try {
-        const topics = await Topic.findAll({ where: { courseId }, order: [['createdAt', 'DESC']] });
+        const topics = await Topic.findAll({ where: { courseId }, include: {model: Course}, order: [['createdAt', 'DESC']] });
         if (topics.length === 0)
             return res.status(404).json({ message: 'No topics available' });
         return res.json(topics);

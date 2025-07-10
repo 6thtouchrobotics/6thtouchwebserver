@@ -6,6 +6,7 @@ const { getUser, getUserById, updateUser } = require('../controllers/user');
 const { getAllCourse, getCourseById, addCourse } = require('../controllers/course');
 const { getAllTopics, getTopicById, addTopic } = require('../controllers/topics');
 const { initiatePayment, verifyPayment } = require('../controllers/integratePayment');
+const { getEnrolledCourseById, getUserEnrollments } = require('../controllers/userEnrollment');
 
 router.get('/', (req, res) => {
     res.send('Welcome to the API');
@@ -23,5 +24,7 @@ router.get('/api/topic/:courseId', authenticate, getTopicById);
 router.post('/api/topic/add', addTopic);
 router.post('/api/payment/initiate', authenticate, initiatePayment);
 router.get('/api/payment/verify', authenticate, verifyPayment);
+router.get('/api/enrolled/course/all', authenticate, getUserEnrollments);
+router.get('/api/enrolled/course/:courseId', authenticate, getEnrolledCourseById);
 
 module.exports = { routers: router };
