@@ -23,7 +23,7 @@ router.get('/api/topic/:courseId/all', authenticate, getAllTopics);
 router.get('/api/topic/:courseId', authenticate, getTopicById);
 router.post('/api/topic/add', addTopic);
 router.post('/api/payment/initiate', authenticate, initiatePayment);
-router.get('/api/payment/verify', authenticate, verifyPayment);
+router.post('/api/payment/verify', authenticate, verifyPayment);
 router.get('/api/enrolled/course/all', authenticate, getUserEnrollments);
 router.get('/api/enrolled/course/:courseId', authenticate, getEnrolledCourseById);
 
