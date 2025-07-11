@@ -3,7 +3,7 @@ const Transaction = require('../models/Transaction');
 const Enrollment = require('../models/Enrollment');
 const Course = require('../models/Course');
 const Flutterwave = require('flutterwave-node-v3');
-const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
+const flw = new Flutterwave(process.env.FLW_TEST_PUBLIC_KEY, process.env.FLW_TEST_SECRET_KEY);
 
 const initiatePayment = async (req, res) => {
     const { amount, email, name, phoneNumber, userId, courseId } = req.body;
