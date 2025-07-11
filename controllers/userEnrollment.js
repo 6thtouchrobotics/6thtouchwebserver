@@ -25,9 +25,9 @@ const getUserEnrollments = async (req, res) => {
   try {
     const enrollments = await Enrollment.findAll({
       where: { userId: id },
-      include: [{ model: Course }, { model: Topic}]
+      model: Course,
+      include: [Topic]
     });
-
     return res.json(enrollments);
   } catch (err) {
     return res.status(500).json({ message: 'Failed to fetch enrolled courses', error: err.message });

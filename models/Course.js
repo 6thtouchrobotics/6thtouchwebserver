@@ -41,7 +41,7 @@ const Course = sequelize.define('Course', {
     link: {
         type: DataTypes.STRING,
         allowNull: true,
-        comment: 'URL of the course video'
+        comment: 'URL of the course link'
     },
     isPublished: {
         type: DataTypes.BOOLEAN,
