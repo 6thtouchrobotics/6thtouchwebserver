@@ -3,7 +3,7 @@ const Topic = require('../models/Topic');
 const Course = require('../models/Course');
 
 const getAllTopics = async (req, res) => {
-    const { courseId } = req.query;
+    const { courseId } = req.params;
     if (!courseId)
         return res.status(400).json({ message: 'Course ID is required' });
     try {

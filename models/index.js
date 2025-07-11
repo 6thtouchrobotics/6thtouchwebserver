@@ -16,6 +16,7 @@ Transaction.belongsTo(Course, { foreignKey: 'courseId' });
 
 Course.hasMany(Topic, { foreignKey: 'courseId' });
 Topic.belongsTo(Course, { foreignKey: 'courseId' });
+Topic.hasOne(Enrollment, { foreignKey: 'topicId' });
 
 module.exports = {
   sequelize,
