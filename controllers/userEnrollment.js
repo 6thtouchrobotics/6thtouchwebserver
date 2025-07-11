@@ -32,6 +32,9 @@ const getUserEnrollments = async (req, res) => {
         }
       ],
     });
+    if (enrollments.length === 0) {
+      return res.status(404).json({ message: 'No enrollments found for this user' });
+    }
     return res.json(enrollments);
   } catch (err) {
     return res.status(500).json({ message: 'Failed to fetch enrolled courses', error: err.message });

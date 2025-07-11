@@ -116,10 +116,11 @@ const initiatePayment = async (req, res) => {
 //   }
 // };
 const verifyPayment = async (req, res) => {
+  const { userId, courseId } = req.body;
   try {
         await Enrollment.create({
-          userId: 'db6e7cc1-ce50-4f4b-986b-5d48cb2eeb09',
-          courseId: '812d1fe8-e0e6-4492-a703-e06c75711405'
+          userId,
+          courseId
   });
       return res.json({
         message: 'Payment verified and course enrolled successfully'});
