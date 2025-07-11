@@ -25,8 +25,12 @@ const getUserEnrollments = async (req, res) => {
   try {
     const enrollments = await Enrollment.findAll({
       where: { userId: id },
-      model: Course,
-      include: [Topic]
+      include: [
+        {
+          model: Course,
+          include: [Topic]
+        }
+      ],
     });
     return res.json(enrollments);
   } catch (err) {
