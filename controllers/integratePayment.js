@@ -122,9 +122,7 @@ const verifyPayment = async (req, res) => {
           courseId: '812d1fe8-e0e6-4492-a703-e06c75711405'
   });
       return res.json({
-        message: 'Payment verified and course enrolled successfully',
-        transaction
-      });
+        message: 'Payment verified and course enrolled successfully'});
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Server error', error: err.response?.data || err.message });
