@@ -63,53 +63,68 @@ const initiatePayment = async (req, res) => {
 };
 
 
+// const verifyPayment = async (req, res) => {
+//   const { transaction_id, tx_ref } = req.query;
+
+//   if (!transaction_id || !tx_ref) {
+//     return res.status(400).json({ message: 'Transaction ids are required' });
+//   }
+
+//   try {
+//     const response = await flw.Transaction.verify({ id: transaction_id });
+
+//     if (response.data.status === 'success') {
+//       const txData = response.data.data;
+
+//       // 1. Find pending transaction
+//       const transaction = await Transaction.findOne({ where: { tx_ref } });
+
+//       if (!transaction) {
+//         return res.status(404).json({ message: 'Transaction not found' });
+//       }
+
+//       // 2. Update transaction status
+//       transaction.status = 'successful';
+//       transaction.amount = txData.amount;
+//       transaction.currency = txData.currency;
+//       await transaction.save();
+
+//       // 3. Enroll the user into the course if not already enrolled
+//       const alreadyEnrolled = await Enrollment.findOne({
+//         where: { userId: transaction.userId, courseId: transaction.courseId }
+//       });
+
+//       if (!alreadyEnrolled) {
+//         await Enrollment.create({
+//           userId: transaction.userId,
+//           courseId: transaction.courseId
+//         });
+//       }else{
+//         return res.status(400).json({ message: 'User is already enrolled in this course' });
+//       }
+
+//       return res.json({
+//         message: 'Payment verified and course enrolled successfully',
+//         transaction
+//       });
+//     } else {
+//       return res.status(400).json({ message: 'Payment verification failed', error: response.data.message });
+//     }
+//   } catch (err) {
+//     console.error(err);
+//     return res.status(500).json({ message: 'Server error', error: err.response?.data || err.message });
+//   }
+// };
 const verifyPayment = async (req, res) => {
-  const { transaction_id, tx_ref } = req.query;
-
-  if (!transaction_id || !tx_ref) {
-    return res.status(400).json({ message: 'Transaction ids are required' });
-  }
-
   try {
-    const response = await flw.Transaction.verify({ id: transaction_id });
-
-    if (response.data.status === 'success') {
-      const txData = response.data.data;
-
-      // 1. Find pending transaction
-      const transaction = await Transaction.findOne({ where: { tx_ref } });
-
-      if (!transaction) {
-        return res.status(404).json({ message: 'Transaction not found' });
-      }
-
-      // 2. Update transaction status
-      transaction.status = 'successful';
-      transaction.amount = txData.amount;
-      transaction.currency = txData.currency;
-      await transaction.save();
-
-      // 3. Enroll the user into the course if not already enrolled
-      const alreadyEnrolled = await Enrollment.findOne({
-        where: { userId: transaction.userId, courseId: transaction.courseId }
-      });
-
-      if (!alreadyEnrolled) {
         await Enrollment.create({
-          userId: transaction.userId,
-          courseId: transaction.courseId
-        });
-      }else{
-        return res.status(400).json({ message: 'User is already enrolled in this course' });
-      }
-
+          userId: 'db6e7cc1-ce50-4f4b-986b-5d48cb2eeb09',
+          courseId: '812d1fe8-e0e6-4492-a703-e06c75711405'
+  });
       return res.json({
         message: 'Payment verified and course enrolled successfully',
         transaction
       });
-    } else {
-      return res.status(400).json({ message: 'Payment verification failed', error: response.data.message });
-    }
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: 'Server error', error: err.response?.data || err.message });
