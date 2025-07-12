@@ -1,5 +1,6 @@
 const axios = require('axios');
-const Transaction = require('../models/Transaction'); 
+const Transaction = require('../models/Transaction');
+const User = require('../models/User');
 const Enrollment = require('../models/Enrollment');
 const Course = require('../models/Course');
 const Flutterwave = require('flutterwave-node-v3');
@@ -116,18 +117,27 @@ const initiatePayment = async (req, res) => {
 //   }
 // };
 const verifyPayment = async (req, res) => {
-  const { userId, courseId } = req.body;
-  try {
+    const { userId, courseId } = req.body;
+    try {
+        const user = await User.findByPk(userId);
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid userId – user does not exist' });
+        }
+        const course = await Course.findByPk(courseId);
+        if (!course) {
+            return res.status(400).json({ message: 'Invalid courseId – course does not exist' });
+        }
         await Enrollment.create({
-          userId,
-          courseId
-  });
-      return res.json({
-        message: 'Payment verified and course enrolled successfully'});
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ message: 'Server error', error: err.response?.data || err.message });
-  }
+            userId,
+            courseId
+        });
+        return res.json({
+            message: 'Payment verified and course enrolled successfully'
+        });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Server error', error: err.response?.data || err.message });
+    }
 };
 
 
