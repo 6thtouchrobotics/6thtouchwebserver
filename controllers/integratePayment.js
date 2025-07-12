@@ -30,7 +30,7 @@ const initiatePayment = async (req, res) => {
                 tx_ref,
                 amount,
                 currency: 'NGN',
-                redirect_url: `${process.env.FRONTEND_URL}/success?tx_ref=${tx_ref}`,
+                redirect_url: `${process.env.FRONTEND_URL}/success`,
                 customer: {
                     email,
                     name,
