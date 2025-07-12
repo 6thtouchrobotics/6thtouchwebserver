@@ -84,10 +84,7 @@ const verifyPayment = async (req, res) => {
         return res.status(404).json({ message: 'Transaction not found' });
       }
 
-      // 2. Update transaction status
       transaction.status = 'successful';
-      transaction.amount = txData.amount;
-      transaction.currency = txData.currency;
       await transaction.save();
 
       // 3. Enroll the user into the course if not already enrolled
