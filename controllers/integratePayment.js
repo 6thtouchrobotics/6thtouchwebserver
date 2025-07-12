@@ -74,7 +74,7 @@ const verifyPayment = async (req, res) => {
   try {
     const response = await flw.Transaction.verify({ id: transaction_id });
 
-    if (response.data.status === 'success') {
+    if (response.data.status === 'successful') {
       const txData = response.data.data;
 
       // 1. Find pending transaction
@@ -109,7 +109,7 @@ const verifyPayment = async (req, res) => {
         transaction
       });
     } else {
-      return res.status(400).json({ message: 'Payment verification failed', error: response.data.message });
+      return res.status(400).json({ message: 'Payment verification failed', error: response.data });
     }
   } catch (err) {
     console.error(err);
