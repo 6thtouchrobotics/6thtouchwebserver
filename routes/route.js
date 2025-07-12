@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate } = require('../middleware/middleware');
-const { sendMagicLink, verifyMagicLink } = require('../controllers/auth');
+const { sendMagicLink, verifyMagicLink, refreshAccessToken } = require('../controllers/auth');
 const { getUser, getUserById, updateUser } = require('../controllers/user');
 const { getAllCourse, getCourseById, addCourse } = require('../controllers/course');
 const { getAllTopics, getTopicById, addTopic } = require('../controllers/topics');
@@ -13,6 +13,7 @@ router.get('/', (req, res) => {
 });
 router.post('/api/auth/magiclink', sendMagicLink);
 router.get('/api/auth/verify', verifyMagicLink);
+router.post('/api/auth/token/refresh', refreshAccessToken);
 router.get('/api/user', authenticate, getUser);
 router.get('/api/user/:id', authenticate, getUserById);
 router.put('/api/user/update', authenticate, updateUser);
