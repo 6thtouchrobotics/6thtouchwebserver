@@ -10,7 +10,9 @@ const getEnrolledCourseById = async (req, res) => {
         return res.status(400).json({ message: 'Course ID is required' });
     try {
         const course = await Enrollment.findOne({ where: { userId: id, courseId },
-        include: [{ model: Course }, { model: Topic }] });
+        include: [{ model: Course,
+          include: [Topic]
+         }] });
         if (course.length === 0)
             return res.status(404).json({ message: 'Course not Avialable' });
         return res.json(user);
