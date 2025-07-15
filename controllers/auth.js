@@ -4,15 +4,16 @@ const { sendEmail } = require('../utils/email');
 
 // Send magic link
 const sendMagicLink = async (req, res) => {
-  const { email } = req.body;
+  const { email, frontendUrl } = req.body;
   try {
     if (!email) return res.status(404).json(message, "provide an email address")
+    if (!frontendUrl) return res.status(404).json(message, "provide your frontend URL")
     let user = await User.findOne({ where: { email } });
     if (!user) {
       user = await User.create({ username: email.split('@')[0], email });
     }
     const token = jwt.sign({ id: user.id, email: user.email, type: 'access'}, process.env.JWT_SECRET, { expiresIn: '30m' });
-    const magicLink = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard?token=${token}`;
+    const magicLink = `${frontendUrl}/dashboard?token=${token}`;
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; background: #f9f9f9; padding: 32px;">
         <div style="max-width: 480px; margin: auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 32px 24px;">
