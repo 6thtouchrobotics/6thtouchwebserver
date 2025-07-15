@@ -31,7 +31,7 @@ const sendMagicLink = async (req, res) => {
     res.json({ message: 'Magic link sent to your email.' });
   } catch (err) {
     res.status(500).json({ message: 'Server error', err });
-  console.error('Magic link error:', err.response.data, err.stack, err);  }
+  console.error('Magic link error:', err);  }
 };
 
 // Verify magic link
