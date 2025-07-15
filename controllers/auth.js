@@ -13,7 +13,7 @@ const sendMagicLink = async (req, res) => {
       user = await User.create({ username: email.split('@')[0], email });
     }
     const token = jwt.sign({ id: user.id, email: user.email, type: 'access'}, process.env.JWT_SECRET, { expiresIn: '30m' });
-    const magicLink = `${frontendUrl}/dashboard?token=${token}`;
+    const magicLink = `${frontendUrl}?token=${token}`;
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; background: #f9f9f9; padding: 32px;">
         <div style="max-width: 480px; margin: auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 32px 24px;">
